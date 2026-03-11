@@ -1,2 +1,2 @@
-# DeepaLearning
+# DeepLearning
 Deep Learning Project
