@@ -14,7 +14,7 @@ This repository contains the development, optimization, and assessment of 20 hig
 ---
 
 ### 📊 Competition Progress Tracker
-We are targeting **20 Operators**. Each operator is validated for functional accuracy (vs. PyTorch) and performance speedup.
+We are targeting **4 Operators**. Each operator is validated for functional accuracy (vs. PyTorch) and performance speedup.
 
 | # | Operator | Category | Difficulty | Status | Speedup (vs Torch) |
 |---|---|---|---|---|---|
