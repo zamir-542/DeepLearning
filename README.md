@@ -38,7 +38,6 @@ We are targeting **20 Operators**. Each operator is validated for functional acc
 *   **Open-Source Adaptability (10%):** Apache 2.0 Licensing, PEP 8 styling, and FlagGems PR compatibility.
 
 ---
-**Maintained by:** Zamir-542  
 **License:** Apache 2.0
 
 ---
