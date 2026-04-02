@@ -1,7 +1,7 @@
 # 🚩 FlagOS: High-Performance Triton Operator Development
 **[FlagGems Operator Development Competition — Track 1]**
 
-This repository contains the development, optimization, and assessment of 20 high-performance LLM operators implemented in **Triton**. The goal is to reach parity with at least 20 PyTorch operators with specialized kernels that achieve ≥0.9x speedup and 100% functional correctness for the FlagGems library.
+This repository contains the development, optimization, and assessment of 20 high-performance LLM operators implemented in **Triton**. The goal is to reach parity with at least 4 PyTorch (2 easy, 1 medium, 1 difficult) with specialized kernels that achieve ≥0.9x speedup and 100% functional correctness for the FlagGems library.
 
 ---
 
