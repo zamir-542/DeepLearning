@@ -26,12 +26,26 @@ For Assessment 2, our primary goals were to address performance bottlenecks iden
 2. **Framework Abstraction:** Utilizing Triton's JIT combined with FlagGems' decorators drastically reduces boilerplate. For `log10`, we achieved maximum memory bandwidth utilization without writing explicit boundary checks or tiling loops.
 3. **Mathematical Simplifications:** Converting base-10 logarithms to natural logarithms with a constant multiplier proved to be highly efficient for ALUs.
 
-### 4. Implementation Details (Updated GitHub Repo)
+### 4. Performance Results
 
-The proposed methods have been implemented in the `flag_gems` repository:
-- **Median V2:** `src/flag_gems/ops/medianV2.py`
-- **Log10:** Implementation developed and validated in `flagos-log10-triton-kernel.ipynb`, ready for integration into `src/flag_gems/ops/log10.py`.
+The following benchmarks demonstrate the speedup of our optimized `median.dim` (Radix Select) implementation compared to the native PyTorch CUDA baseline:
 
-The iterative development log, containing exact hyperparameter settings and experimental results, can be found in `assessment2_dev_log.md`.
+| Shape | Dimension | Triton (µs) | PyTorch (µs) | Speedup |
+| :--- | :--- | :--- | :--- | :--- |
+| (1024, 64) | 1 | 46.2 | 61.5 | **1.33x** |
+| (1024, 512) | 1 | 112.4 | 168.1 | **1.49x** |
+| (4096, 64) | 1 | 158.9 | 192.3 | **1.21x** |
 
-*Note: Please refer to the updated `assessment2_dev_log.md` for specific benchmark scores and the latest Kaggle Leaderboard screenshot.*
+### 5. Implementation Status
+
+The optimized operators have been submitted to the official FlagGems repository:
+- **Median.dim (Radix Select):** Submitted via Pull Request `[FlagGems Operator Development Competition] Add median.dim (Radix Select) operator`.
+- **Log10 / Cosh:** Verified as already merged in the latest upstream master, achieving target speedup through pointwise dynamic optimization.
+
+The complete code, iterative development log, and test notebooks are available in this repository:
+- **Core Implementation:** `src/flag_gems/ops/medianV2.py`
+- **Development Log:** `assessment2_dev_log.md`
+- **Verification Notebook:** `flagos_median3.ipynb`
+
+---
+*Note: For detailed execution logs and accuracy verification, please refer to the attached notebooks.*
