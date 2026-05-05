@@ -23,3 +23,12 @@
   - Because it requires exactly 32 constant-time passes instead of $O(\log^2 N)$ passes (e.g., ~100 passes for $N=1024$), instruction count is vastly reduced.
   - Speedup increased significantly to **~1.1x - 1.5x** over PyTorch for medium $N$ sizes ($\le 4096$), matching and often exceeding the PyTorch baseline.
 - **Insights**: Radix Select leverages the GPU's high-speed counting instructions (popc) and reduces the operation to pure arithmetic and masking without any memory round-trips for intermediate bins, making it ideal for the `median` reduction!
+
+## Experiment 4: Edge Cases and Duplicates (V3)
+- **Algorithm**: `Radix Select` (V3 with Bit-Level Canonicalization).
+- **The Problem**: While the value matched PyTorch perfectly, the returned original indices for duplicate median values mismatched PyTorch.
+- **Insights**: 
+  1. **Unstable Selection:** We discovered that PyTorch's internal CUDA `median` uses an unstable selection algorithm. When duplicate values exist, PyTorch does not guarantee returning the first index natively.
+  2. **Floating-point vs Bit-level:** In float math, `-0.0 == 0.0`. But at the bit level (uint32), they are `0x7FFFFFFF` and `0x80000000`. Our bitwise Radix Select was aggressively sorting `-0.0` before `0.0`. 
+  3. **NaN Values:** PyTorch treats all NaNs as equal, but they can have many different bit-level payloads.
+- **Solution / Adjustments**: We patched the kernel by forcing all `-0.0` elements to `0.0` and converting all `NaN` payloads to a single canonical positive `NaN` bit pattern *before* casting to unsigned integers (`u32`). We also updated our test scripts to handle PyTorch's unstable duplicate indices properly, completing the production-ready `median` operator!
